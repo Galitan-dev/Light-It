@@ -1,31 +1,18 @@
-const SIL = require('system-input')
+const Gpio = require('onoff').Gpio;
 const Client = require('./client');
 
 const client = new Client();
-const sil = new SIL();
+const pushButton = new Gpio(17, 'in', 'rising');
 
 client.on('ready', async () => {
     console.log('Client is ready');
-
-    sil.start();
+    
+    pushButton.watch(onPress);
 });
-
-sil.on('ready', () => {
-    console.log('System Input Listener is ready');
-});
-
-sil.on('keydown', (event) => {
-    switch (event.keyCode) {
-        case 57: client.turnLightOn(); break;
-        case 56: client.toggleLight(); break;
-    }
-});
-
-sil.on('keyup', (event) => {
-    switch (event.keyCode) {
-        case 57: client.turnLightOff(); break;
-    }
-});
-
 
 client.on('error', console.error);
+
+function onPress(err, _value) {
+    if (err) return console.error(err);
+    client.toggleLight();
+};

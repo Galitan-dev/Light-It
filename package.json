@@ -9,6 +9,6 @@
   "private": true,
   "dependencies": {
     "google-assistant": "^0.7.0",
-    "system-input": "^0.7.0"
+    "onoff": "^6.0.3"
   }
 }
